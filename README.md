@@ -1,10 +1,9 @@
 - 👋 Hi, I’m @rhartzell-tyler
 - 👀 I’m interested in all things computer science
-- 🌱 I’m currently learning kubernetes
-- 💞️ I’m looking to collaborate on Tyler projects
+- 🌱 I’m currently deploying a new pod to a kubernetes cluster
+- 💞️ Here to collaborate on Tyler projects
 - 📫 Reach me via DM or email
-- 😄 Pronouns: He/Him
-- ⚡ Fun fact: I live in the home city of the Kansas City Chiefs, NFL champions.
+- ⚡ Fun fact: I reside in the city renowned for the Kansas City Chiefs, the champions of the NFL.
 
 <!---
 rhartzell-tyler/rhartzell-tyler is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
