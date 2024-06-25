@@ -2,7 +2,7 @@
 - 👀 I’m interested in all things computer science
 - 🌱 I’m currently deploying a new pod to a kubernetes cluster
 - 💞️ Here to collaborate on Tyler projects
-- 📫 Reach me via DM or email
+- 📫 Reach me on teams: rodney.hartzell@tylertech.com
 - ⚡ Fun fact: I reside in the city renowned for the Kansas City Chiefs, the champions of the NFL.
 
 <!---
