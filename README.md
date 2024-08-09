@@ -42,7 +42,7 @@ begin
         select roleid into vCustRoleid from user_roles where rolename = rec.customerid;
         
         -- only add admin role if is primary
-        if (rec.rolename = 'mc_useradmin' AND rec.email = rec.cdbprimarycontactemail) then
+        if (rec.rolename = 'admin' AND rec.email = rec.cdbprimarycontactemail) then
             vSql := 'insert into user_usersinroles (userid, roleid) values (''' || rec.userid || ''', ''' || rec.roleid || ''')';
             execute immediate vSql;
             vRowsAdded := vRowsAdded + 1;
