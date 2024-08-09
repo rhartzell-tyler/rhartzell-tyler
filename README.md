@@ -15,10 +15,11 @@ You can click the Preview link to take a look at your changes.
 --->
 
 ### Now for a code snippet
+Can you convert the following cursor based procedure into a single statement?
 
 ```sql
 declare
-    cursor noroles is select ud.userid, email, customerid, cr.rolename, r.roleid
+    cursor noroles is select ud.userid, email, customerid, cr.rolename, r.roleid,c.cdbprimarycontactemail
                         from user_data ud
                             join user_profile up on up.userid = ud.userid
                             join psp_customer c on c.cdbcustomerid = up.customerid
@@ -26,23 +27,43 @@ declare
                             join psp_customer_roles cr on ctr.roleid = cr.roleid
                             join user_roles r on r.rolename = cr.rolename
                         where ud.userid not in (select userid from user_usersinroles)
-                        and c.cdbprimarycontactemail = loweredemail
                         and ud.isapproved = 1
                     order by ud.userid, customerid, rolename;
-    custRoleid varchar2(36);
-    vSql varchar(1024);
+    vCustRoleid varchar2(36);
+    vSql varchar2(1024);
+    vCustRoleSql varchar2(1024);
+    vCurrCustId varchar2(20) := ' ';
+    vPrevCustId varchar2(20) := ' ';
+    vUserCount number := 0;
+    vRowsAdded number := 0;
 begin
    FOR rec IN noroles LOOP
-        --dbms_output.put_line(rec.loweredemail);
+        vCurrCustId := rec.customerid;
+        select roleid into vCustRoleid from user_roles where rolename = rec.customerid;
         
-        select roleid into custRoleid from user_roles where rolename = rec.customerid;
+        -- only add admin role if is primary
+        if (rec.rolename = 'mc_useradmin' AND rec.email = rec.cdbprimarycontactemail) then
+            vSql := 'insert into user_usersinroles (userid, roleid) values (''' || rec.userid || ''', ''' || rec.roleid || ''')';
+            execute immediate vSql;
+            vRowsAdded := vRowsAdded + 1;
+        end if;
         
-        -- show dynamic sql
-        dbms_output.put_line(rec.email || ', ' || rec.rolename);
-        vSql := 'insert into user_usersinroles (userid, roleid) values (''' || rec.userid || ''', ''' || rec.roleid || ''')';
-        dbms_output.put_line(vSql);
+        if (rec.rolename != 'mc_useradmin') then
+            vSql := 'insert into user_usersinroles (userid, roleid) values (''' || rec.userid || ''', ''' || rec.roleid || ''')';
+            execute immediate vSql;
+            vRowsAdded := vRowsAdded + 1;
+        end if;
         
+        if (vCurrCustId != vPrevCustId) then
+            vUserCount := vUserCount + 1;
+            vCustRoleSql := 'insert into user_usersinroles (userid, roleid) values (''' || rec.userid || ''', ''' || vCustRoleId || ''')';
+            execute immediate vSql;
+            vRowsAdded := vRowsAdded + 1;
+            vPrevCustId := vCurrCustId;
+        end if;
         
    END LOOP;
+   dbms_output.put_line('Total users: ' || vUserCount);
+   dbms_output.put_line('Total rows added: ' || vRowsAdded);
 END;
 ```
