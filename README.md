@@ -1,21 +1,49 @@
 # Rod Hartzell 
 
-### About me
+## About me
 - 👋 Hi, I’m @rhartzell-tyler
 - 👀 I’m interested in all things computer science
-- 🌱 I’m currently deploying a new pod to a kubernetes cluster
-- 💞️ Here to collaborate on Tyler projects
+- 🌱 I’m currently deploying a new pod to a kubernetes cluster, and migrating the stack to AWS.
+- 💞️ Here to collaborate on Tyler projects.
 - 📫 Reach me on teams: rodney.hartzell@tylertech.com
-- ⚡ Fun fact: I reside in the city renowned for the Kansas City Chiefs, the champions of the NFL.
-- ☢ Fluid Sim. in WebGL [https://rhartzell-tyler.github.io/](https://rhartzell-tyler.github.io/)
+- ⚡ Fun fact: I reside in the city of the current NFL champions.
+- ☢ Fluid Simulation using WebGL [(click here)](https://rhartzell-tyler.github.io/)
 
 <!---
 rhartzell-tyler/rhartzell-tyler is a ✨ special ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 You can click the Preview link to take a look at your changes.
 --->
+### Oracle to PostgreSQL Conversion Notes
+| Oracle | PostrgeSQL 
+--------|------------
+|![logo](https://www.siebelhub.com/main/wp-content/uploads/2015/09/oracle-logo.png)|![logo](https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/postgres/logo.png)|
 
-### Now for a code snippet
-Can you convert the following cursor based procedure into a single statement?
+1. Differences in SQL Syntax and Functionality
+Oracle and PostgreSQL SQL syntax and functionality aren't always a one-to-one match. This can lead to issues during the migration, especially with complex queries and stored procedures.
+    - __Example__: In Oracle, I used to rely heavily on the `CONNECT BY` clause for hierarchical queries. PostgreSQL doesn't support `CONNECT BY`. I had to rewrite those queries using recursive common table expressions (CTEs), which are the PostgreSQL way of handling hierarchical data.
+
+3. Transaction Behavior
+Oracle and PostgreSQL handle transactions differently. In Oracle, DDL statements are treated as autonomous transactions and are immediately committed. In contrast, PostgreSQL treats DDL statements as regular transactions.
+    - __Example__: I once tried to execute a series of DDL and DML statements in a single transaction in PostgreSQL, expecting them to behave like in Oracle. This resulted in some unexpected behavior because the changes weren't immediately committed.
+
+3. Case Sensitivity
+By default, Oracle is case-insensitive for column and table names, while PostgreSQL is case-sensitive. This can lead to issues if your Oracle schema uses mixed-case identifiers.
+    - __Example__: I had a table in Oracle with mixed-case columns. When I migrated it to PostgreSQL, I ran into issues because PostgreSQL was treating `myColumn` and `mycolumn` as two different columns.
+4. Sequences and Auto-Incrementing
+In Oracle, you create a sequence and then use a trigger to auto-increment a column. PostgreSQL has a built-in feature for auto-incrementing columns using `SERIAL` or `IDENTITY`, but migrating Oracle sequences and triggers to this new paradigm can be tricky.
+    - __Example__: In Oracle, I had a table with a sequence and a trigger for auto-incrementing the primary key. When migrating to PostgreSQL, I had to replace these with a `SERIAL` primary key.
+5. Data Types
+Oracle and PostgreSQL have different sets of data types. While many of them map directly, some Oracle data types have no equivalent in PostgreSQL.
+    - __Example__: I had a table in Oracle that used the `NUMBER` data type. PostgreSQL doesn't have a `NUMBER` type, so I had to carefully map it to an appropriate numeric type in PostgreSQL.
+6. NULLs and Empty Strings
+Oracle treats NULLs and empty strings the same way, which is different from PostgreSQL where NULL and an empty string are distinct. If your Oracle database or applications rely on this behavior, you'll need to carefully handle this during the migration.
+    - __Example__: I once had a bug in our application after migration because it was relying on Oracle's treatment of empty strings as NULL. I had to update the application code to treat NULL and empty strings separately in PostgreSQL.
+7. Date and Time Types
+Oracle has a single DATE type that includes both date and time, unlike PostgreSQL, which separates date and time into DATE, TIME, and TIMESTAMP types. This can lead to confusion if your Oracle database uses the DATE type to store times.
+    - __Example__: We had a table in Oracle with a DATE column that was being used to store both date and time. When I migrated it to PostgreSQL using the DATE type, we lost the time information. I had to go back and change it to the TIMESTAMP type in PostgreSQL.
+
+### SQL Coding Challenge
+Can you convert the following cursor based procedure into a single `insert` statement?
 
 ```sql
 declare
@@ -67,3 +95,4 @@ begin
    dbms_output.put_line('Total rows added: ' || vRowsAdded);
 END;
 ```
+Bragging rights to any who conquer the Challenge. __Good Luck!__
