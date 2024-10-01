@@ -17,7 +17,7 @@ You can click the Preview link to take a look at your changes.
 ### Oracle to PostgreSQL Conversion Notes
 | Oracle | PostrgeSQL | C# | TypeScript |
 --------|-------------|----|-------------
-|![logo](https://www.siebelhub.com/main/wp-content/uploads/2015/09/oracle-logo.png)|![logo](https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/postgres/logo.png)|![logo](https://serengetijade.github.io/img/technologies/csharp.jpg)|![logo](https://cdn.thenewstack.io/media/2022/01/10b88c68-typescript-logo.png)|
+|![logo](https://www.siebelhub.com/main/wp-content/uploads/2015/09/oracle-logo.png)|![logo](https://raw.githubusercontent.com/docker-library/docs/01c12653951b2fe592c1f93a13b4e289ada0e3a1/postgres/logo.png)|![logo](https://careerkarma.com/blog/wp-content/uploads/2019/05/c-logo.png)|![logo](https://www.pngrepo.com/png/354479/180/typescript.png)|
 
 1. Differences in SQL Syntax and Functionality
 Oracle and PostgreSQL SQL syntax and functionality aren't always a one-to-one match. This can lead to issues during the migration, especially with complex queries and stored procedures.
