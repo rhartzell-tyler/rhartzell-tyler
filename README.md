@@ -43,6 +43,34 @@ Oracle treats NULLs and empty strings the same way, which is different from Post
 Oracle has a single DATE type that includes both date and time, unlike PostgreSQL, which separates date and time into DATE, TIME, and TIMESTAMP types. This can lead to confusion if your Oracle database uses the DATE type to store times.
     - __Example__: We had a table in Oracle with a DATE column that was being used to store both date and time. When I migrated it to PostgreSQL using the DATE type, we lost the time information. I had to go back and change it to the TIMESTAMP type in PostgreSQL.
 
+### Postgres Anonymous Procedures
+```sql
+DO $$
+declare
+	custCursor cursor is Select * from pspapp_qa.psp_customer;
+	pcursor refcursor;
+	row pspapp_qa.app_config%rowtype;
+	custRow pspapp_qa.psp_customer%rowtype;
+	i int;
+	custOut text;
+begin
+    -- call a sproc and iterate with for loop
+	-- CALL pspapp_qa."app_config_api$get_all_config_values"(pcursor);
+
+	-- FOR i in 1..200 LOOP
+	-- 	FETCH NEXT from pcursor into row;
+	-- 	RAISE NOTICE '%', row.config_key;
+	-- END LOOP;
+
+    -- iterate over the customer cursor and dump to console.
+	FOR custRow in custCursor LOOP
+	custOut := custRow.cdbcustomerid || ': ' || custRow.dba_name;
+		RAISE NOTICE '%', custOut;
+	END LOOP;
+END $$;
+
+```
+
 ### SQL Coding Challenge
 Can you convert the following cursor based procedure into a single `insert` statement?
 
