@@ -120,11 +120,18 @@ select date '2001-10-01' - date '2001-09-28';
 select current_date + current_time;
 -- current date and time with time zone
 select clock_timestamp();
+select now();
 
 -- age
 select age(timestamp '2001-04-10', timestamp '1957-06-13');
 select age(current_date, timestamp '1962-12-13');
 select age(timestamp '1957-06-13');
+
+-- do date intervals overlap?
+SELECT (DATE '2001-02-16', DATE '2001-12-21') OVERLAPS
+       (DATE '2001-10-30', DATE '2002-10-30');
+	   
+SELECT EXTRACT(EPOCH FROM clock_timestamp()); -- 1730383522.483188
 
 ```
 
