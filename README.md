@@ -69,12 +69,11 @@ do $$
 DECLARE
 message varchar :='';
 begin
-message := concat(message,'1,');
-message := concat(message,'2,');
-message := concat(message,'3,');
-message := concat(message,'4,');
-RAISE NOTICE '%',
-message;
+	message := concat(message,'1,');
+	message := concat(message,'2,');
+	message := concat(message,'3,');
+	message := concat(message,'4,');
+	RAISE NOTICE '%', message;
 END$$;
 
 -- example of iterating over a cursor and implicit string concatenation
