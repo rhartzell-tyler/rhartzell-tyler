@@ -43,31 +43,88 @@ Oracle treats NULLs and empty strings the same way, which is different from Post
 Oracle has a single DATE type that includes both date and time, unlike PostgreSQL, which separates date and time into DATE, TIME, and TIMESTAMP types. This can lead to confusion if your Oracle database uses the DATE type to store times.
     - __Example__: We had a table in Oracle with a DATE column that was being used to store both date and time. When I migrated it to PostgreSQL using the DATE type, we lost the time information. I had to go back and change it to the TIMESTAMP type in PostgreSQL.
 
-### Postgres Anonymous Procedures
+### Postgres Tips and Tricks
 ```sql
-DO $$
-declare
-	custCursor cursor is Select * from pspapp_qa.psp_customer;
-	pcursor refcursor;
-	row pspapp_qa.app_config%rowtype;
-	custRow pspapp_qa.psp_customer%rowtype;
-	i int;
-	custOut text;
+-- sets the schema for the pgAdmin session
+SET search_path = 'pspapp_qa';
+
+-- pull data from the uppercase schema to the lower case schema
+insert into pspapp_qa.psp_customer 
+(SELECT * FROM "PSPAPP_QA"."PSP_CUSTOMER")
+
+-- generate script to convert case on column names from a table in a schema
+SELECT (SELECT 'INSERT INTO ',column_name, (select ' AS '), lower(column_name), (select ', ')
+  FROM information_schema.columns
+ WHERE table_schema = 'PSPAPP_QA'
+   AND table_name   = 'PSP_CUSTOMER';
+
+-- get column names from a table in a schema
+SELECT column_name
+  FROM information_schema.columns
+ WHERE table_schema = 'pspapp_qa'
+   AND table_name   = 'psp_customer';
+
+-- example of expllicit string concatenation and debug messaging
+do $$
+DECLARE
+message varchar :='';
 begin
-    -- call a sproc and iterate with for loop
-	-- CALL pspapp_qa."app_config_api$get_all_config_values"(pcursor);
+message := concat(message,'1,');
+message := concat(message,'2,');
+message := concat(message,'3,');
+message := concat(message,'4,');
+RAISE NOTICE '%',
+message;
+END$$;
 
-	-- FOR i in 1..200 LOOP
-	-- 	FETCH NEXT from pcursor into row;
-	-- 	RAISE NOTICE '%', row.config_key;
-	-- END LOOP;
-
-    -- iterate over the customer cursor and dump to console.
-	FOR custRow in custCursor LOOP
-	custOut := custRow.cdbcustomerid || ': ' || custRow.dba_name;
-		RAISE NOTICE '%', custOut;
+-- example of iterating over a cursor and implicit string concatenation
+DO $$
+DECLARE
+	cur cursor is select * from app_config;
+	rec app_config % rowtype;
+BEGIN
+	FOR rec IN cur LOOP
+		RAISE NOTICE '%', rec.config_key || ' : ' || rec.config_value;
 	END LOOP;
 END $$;
+
+-- use date_part or extract to get the month day year or time from a date value
+-- column aliases can be used in group by and order by expressions
+select count(*), date_part('year', submitted_date) as year, date_part('month', submitted_date) as month
+from psp_customer
+group by year, month
+order by year, month
+-- OR --
+select count(*), extract('year' from submitted_date) as year, extract('month' from submitted_date) as month
+from psp_customer
+group by year, month
+order by year, month
+
+-- truncate dates to remove time element
+select * from driver_record_transaction
+where date_trunc('day', request_date) >= date_trunc('day', timestamp '2024-09-01');
+
+-- dates in postgres
+select date '2001-09-28' + time '13:00'  + interval '1 hour'
+
+-- adding/subtracting intervals
+select date '2001-09-28' + time '13:00' + interval '1 hour';
+select date '2001-09-28' + time '13:00' - interval '1 hour';
+select date '2001-09-28' + time '13:00' - interval '3.5 minutes';
+select interval '1 hour' * 3.5;
+
+-- Subtract dates, producing the number of days elapsed
+select date '2001-10-01' - date '2001-09-28';
+
+-- date and time
+select current_date + current_time;
+-- current date and time with time zone
+select clock_timestamp();
+
+-- age
+select age(timestamp '2001-04-10', timestamp '1957-06-13');
+select age(current_date, timestamp '1962-12-13');
+select age(timestamp '1957-06-13');
 
 ```
 
