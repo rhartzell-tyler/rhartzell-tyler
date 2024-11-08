@@ -87,6 +87,26 @@ BEGIN
 	END LOOP;
 END $$;
 
+-- Example of calling a procedure with an INOUT cursor parameter and iterating over the result.
+DO $$
+DECLARE
+    rec app_config % rowtype;
+    pcursor refcursor;
+BEGIN
+    -- Call the procedure
+    CALL "app_config_api$get_all_config_values"(pcursor);
+
+    -- Iterate over the cursor
+    LOOP
+        FETCH pcursor INTO rec;
+        EXIT WHEN NOT FOUND;
+        RAISE NOTICE '%', rec.config_key || ' : ' || rec.config_value;
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE pcursor;
+END $$;
+
 -- use date_part or extract to get the month day year or time from a date value
 -- column aliases can be used in group by and order by expressions
 select count(*), date_part('year', submitted_date) as year, date_part('month', submitted_date) as month
