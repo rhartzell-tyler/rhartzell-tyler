@@ -107,6 +107,29 @@ BEGIN
     CLOSE pcursor;
 END $$;
 
+-- Iterate over a cursor returned from a stored procedure. Uses RECORD type and the row_to_json function
+DO $$
+DECLARE
+	rec RECORD;
+    pcursor refcursor;
+	pstartdate timestamp without time zone := timestamp '2024-10-01';
+	penddate timestamp without time zone := pstartdate + interval '1 month';
+BEGIN
+    -- Call the procedure
+    CALL "reports_api$get_account_penalty_rpt"(pstartdate, penddate, pcursor);
+
+    -- Iterate over the cursor
+    LOOP
+        FETCH pcursor INTO rec;
+        EXIT WHEN NOT FOUND;
+        -- Process each row
+        RAISE NOTICE '%', row_to_json(rec);
+    END LOOP;
+
+    -- Close the cursor
+    CLOSE pcursor;
+END $$;
+
 -- use date_part or extract to get the month day year or time from a date value
 -- column aliases can be used in group by and order by expressions
 select count(*), date_part('year', submitted_date) as year, date_part('month', submitted_date) as month
