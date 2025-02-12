@@ -6,7 +6,7 @@
 - 🌱 I’m currently deploying a new pod to a kubernetes cluster, and migrating the stack to AWS.
 - 💞️ Here to collaborate on Tyler projects.
 - 📫 Reach me on teams: rodney.hartzell@tylertech.com
-- ⚡ Fun fact: I reside in the city of the current NFL champions.
+- ⚡ Fun fact: High and low voltage electronics is kind of my thing. eg MIG Welding and Adruino/RaspberryPi/ESP32 development.
 - ☢ Fluid Simulation using WebGL [(click here)](https://rhartzell-tyler.github.io/)
 
 [Shortcut to PSP Repositories](https://github.com/orgs/tyler-technologies-dsd/teams/pre-employment-screening-program/repositories)
