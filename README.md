@@ -8,6 +8,7 @@
 - 📫 Reach me on teams: rodney.hartzell@tylertech.com
 - ⚡ Fun fact: High and low voltage electronics is kind of my thing. eg MIG Welding and Adruino/RaspberryPi/ESP32 development.
 - ☢ Fluid Simulation using WebGL [(click here)](https://rhartzell-tyler.github.io/)
+-    Another WebGL bit using three.js [(click here)](https://rhartzell-tyler.github.io/mathArt/math-art.html)
 
 [Shortcut to PSP Repositories](https://github.com/orgs/tyler-technologies-dsd/teams/pre-employment-screening-program/repositories)
 
