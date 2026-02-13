@@ -3,7 +3,7 @@
 ## About me
 - 👋 Hi, I’m @rhartzell-tyler
 - 👀 I’m interested in all things computer science
-- 🌱 I’m currently deploying a new pod to a kubernetes cluster, and migrating the stack to AWS.
+- 🌱 I’m currently studying for the AWS SAA-C03 certification exam.
 - 💞️ Here to collaborate on Tyler projects.
 - 📫 Reach me on teams: rodney.hartzell@tylertech.com
 - ⚡ Fun fact: High and low voltage electronics is kind of my thing. eg MIG Welding and Adruino/RaspberryPi/ESP32 development.
