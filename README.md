@@ -7,7 +7,7 @@
 - 💞️ Here to collaborate on Tyler projects.
 - 📫 Reach me on teams: rodney.hartzell@tylertech.com
 - ⚡ Fun fact: High and low voltage electronics is kind of my thing. eg MIG Welding and Adruino/RaspberryPi/ESP32 development.
-- ☢ I occassionally dable with shaders on [https://www.shadertoy.com](https://www.shadertoy.com/). 
+- ☢ I occassionally dabble with shader scripting, because... it's really cool.
 - ☢ I love applied physics. Here's a cool fluid Simulation using WebGL [(click here)](https://rhartzell-tyler.github.io/)
 - ☢ Another WebGL bit using three.js [(click here)](https://rhartzell-tyler.github.io/mathArt/index.html)
 
